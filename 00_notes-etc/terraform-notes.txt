@@ -1,0 +1,1739 @@
+Terraform is an IAC (Infrastructure as code) tool with declarative
+approach. its developed in HCL (Hashicorp Language) & GO launguage 
+
+For downloading terraform on windows, goto official site and 
+download the zip. unzip it and copy the executable in pc location 
+and add the path in environment variable. 
+
+$ terraform -v
+Terraform v1.4.5
+on windows_386
+
+Login to aws account to create an Iam user and attach administration 
+policy. create an programmatic access key & secret access key for that
+user to use in our terraform code.
+
+Below are my current keys (note:these are temp keys for practice, will remove)
+user:				nprauto-admin-01
+Access key: 		AKIATMJP6MQCTITR7LKV
+Secret access key: 	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
+
+
+Terraform will work on below three things
+  Desired   Known   Actual 
+  
+  Desired - Desired state means our wish/plan to create
+  Known - Known state is nothing but state updated in tfstate file
+  Actual - Actual state is nothing but status of cloud 
+
+Practice-01
+===========
+# exported access key & secret key to terminal
+$ export AWS_ACCESS_KEY_ID=AKIATMJP6MQCTITR7LKV
+$ export AWS_SECRET_ACCESS_KEY=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
+
+
+# scenario-01:create s3 bucket
+# adding the provider aws
+provider "aws" {
+  region = "us-east-1"
+}
+
+# create an s3 bucket resource 
+resource "aws_s3_bucket" "my_s3_bucket" {
+  bucket = "npr-tf-test"
+}
+
+
+some of the useful commands:-
+terrafom init 
+terraform fmt 
+terraform validate 
+terraform plan 
+terraform apply 
+terraform destory
+terraform show 
+terraform console 
+terraform import 
+
+==> 
+
+$ terraform
+Usage: terraform [global options] <subcommand> [args]
+
+The available commands for execution are listed below.
+The primary workflow commands are given first, followed by
+less common or more advanced commands.
+
+Main commands:
+  init          Prepare your working directory for other commands
+  validate      Check whether the configuration is valid
+  plan          Show changes required by the current configuration
+  apply         Create or update infrastructure
+  destroy       Destroy previously-created infrastructure
+
+All other commands:
+  console       Try Terraform expressions at an interactive command prompt
+  fmt           Reformat your configuration in the standard style
+  force-unlock  Release a stuck lock on the current workspace
+  get           Install or upgrade remote Terraform modules
+  graph         Generate a Graphviz graph of the steps in an operation
+  import        Associate existing infrastructure with a Terraform resource
+  login         Obtain and save credentials for a remote host
+  logout        Remove locally-stored credentials for a remote host
+  metadata      Metadata related commands
+  output        Show output values from your root module
+  providers     Show the providers required for this configuration
+  refresh       Update the state to match remote systems
+  show          Show the current state or a saved plan
+  state         Advanced state management
+  taint         Mark a resource instance as not fully functional
+  test          Experimental support for module integration testing
+  untaint       Remove the 'tainted' state from a resource instance
+  version       Show the current Terraform version
+  workspace     Workspace management
+
+Global options (use these before the subcommand, if any):
+  -chdir=DIR    Switch to a different working directory before executing the
+                given subcommand.
+  -help         Show this help output, or the help for a specified subcommand.
+  -version      An alias for the "version" subcommand.
+
+
+==>
+
+$ terraform fmt
+main.tf
+
+$ terraform.exe init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/aws...
+- Installing hashicorp/aws v4.64.0...
+- Installed hashicorp/aws v4.64.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+
+$ terraform.exe plan
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_s3_bucket.my_s3_bucket will be created
+  + resource "aws_s3_bucket" "my_s3_bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "npr-tf-test"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags_all                    = (known after apply)
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+
+$ terraform apply
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_s3_bucket.my_s3_bucket will be created
+  + resource "aws_s3_bucket" "my_s3_bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "npr-tf-test"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags_all                    = (known after apply)
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_s3_bucket.my_s3_bucket: Creating...
+aws_s3_bucket.my_s3_bucket: Creation complete after 5s [id=npr-tf-test]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+
+# scenario-02: extending s3 bucket
+# enable versioning to the created bucket 
+resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+  bucket = aws_s3_bucket.my_s3_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+==>
+$ terraform plan
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_s3_bucket_versioning.versioning_my_s3_bucket will be created
+  + resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+      + bucket = "npr-tf-test"
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+$ terraform apply
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_s3_bucket_versioning.versioning_my_s3_bucket will be created
+  + resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+      + bucket = "npr-tf-test"
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Creating...
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Creation complete after 3s [id=npr-tf-test]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+
+
+# scenario-03: create an resource iam user
+resource "aws_iam_user" "my_iam_user" {
+  name = "npr-iam-user"
+  path = "/system/"
+}
+
+==>
+$ terraform plan
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_iam_user.my_iam_user will be created
+  + resource "aws_iam_user" "my_iam_user" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "npr-iam-user"
+      + path          = "/system/"
+      + tags_all      = (known after apply)
+      + unique_id     = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+$ terraform apply
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_iam_user.my_iam_user will be created
+  + resource "aws_iam_user" "my_iam_user" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "npr-iam-user"
+      + path          = "/system/"
+      + tags_all      = (known after apply)
+      + unique_id     = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_iam_user.my_iam_user: Creating...
+aws_iam_user.my_iam_user: Creation complete after 2s [id=npr-iam-user]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+
+full code:-
+---------
+# exported access key & secret key to terminal
+# $ export AWS_ACCESS_KEY_ID=AKIATMJP6MQCTITR7LKV
+# $ export AWS_SECRET_ACCESS_KEY=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
+
+# scenario-01: create s3 bucket
+# adding the provider aws
+provider "aws" {
+  region = "us-east-1"
+}
+
+# create an s3 bucket resource 
+resource "aws_s3_bucket" "my_s3_bucket" {
+  bucket = "npr-tf-test"
+}
+
+# scenario-02: extending s3 bucket
+# enable versioning to the created bucket 
+resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+  bucket = aws_s3_bucket.my_s3_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# scenario-03: create an resource iam user
+resource "aws_iam_user" "my_iam_user" {
+  name = "npr-iam-user"
+  path = "/system/"
+}
+
+practice-02
+===========
+
+
+# scenario-01: create s3 bucket with versioning enabled & iam user 
+# adding the provider aws
+provider "aws" {
+  region = "us-east-1"
+  access_key = "AKIATMJP6MQCTITR7LKV"
+  secret_key = "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"
+}
+
+# create an s3 bucket resource 
+resource "aws_s3_bucket" "my_s3_bucket" {
+  bucket = "npr-tf-test"
+}
+
+# enable versioning to the created bucket 
+resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+  bucket = aws_s3_bucket.my_s3_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# create an resource iam user
+resource "aws_iam_user" "my_iam_user" {
+  name = "npr-iam-user"
+  path = "/system/"
+}
+
+==>
+$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/aws...
+- Installing hashicorp/aws v4.64.0...
+- Installed hashicorp/aws v4.64.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+
+$ terraform fmt
+main.tf
+
+$ terraform validate
+Success! The configuration is valid.
+
+
+$ terraform plan
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_iam_user.my_iam_user will be created
+  + resource "aws_iam_user" "my_iam_user" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "npr-iam-user"
+      + path          = "/system/"
+      + tags_all      = (known after apply)
+      + unique_id     = (known after apply)
+    }
+
+  # aws_s3_bucket.my_s3_bucket will be created
+  + resource "aws_s3_bucket" "my_s3_bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "npr-tf-test"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags_all                    = (known after apply)
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+    }
+
+  # aws_s3_bucket_versioning.versioning_my_s3_bucket will be created
+  + resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+
+
+$ terraform apply
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_iam_user.my_iam_user will be created
+  + resource "aws_iam_user" "my_iam_user" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "npr-iam-user"
+      + path          = "/system/"
+      + tags_all      = (known after apply)
+      + unique_id     = (known after apply)
+    }
+
+  # aws_s3_bucket.my_s3_bucket will be created
+  + resource "aws_s3_bucket" "my_s3_bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "npr-tf-test"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags_all                    = (known after apply)
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+    }
+
+  # aws_s3_bucket_versioning.versioning_my_s3_bucket will be created
+  + resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_iam_user.my_iam_user: Creating...
+aws_s3_bucket.my_s3_bucket: Creating...
+╷
+│ Error: creating Amazon S3 (Simple Storage) Bucket (npr-tf-test): bucket already exists
+│
+│   with aws_s3_bucket.my_s3_bucket,
+│   on main.tf line 11, in resource "aws_s3_bucket" "my_s3_bucket":
+│   11: resource "aws_s3_bucket" "my_s3_bucket" {
+│
+╵
+╷
+│ Error: creating IAM User (npr-iam-user): EntityAlreadyExists: User with name npr-iam-user already exists.
+│       status code: 409, request id: 4687bce8-d9c2-46d2-b9ba-54b4a665af9d
+│
+│   with aws_iam_user.my_iam_user,
+│   on main.tf line 24, in resource "aws_iam_user" "my_iam_user":
+│   24: resource "aws_iam_user" "my_iam_user" {
+│
+╵
+
+## note:-
+   ----
+now i have used same .tfstate & .tfstate.backup
+copied files from example-1 to here to maintain same state 
+
+$ terraform.exe console
+> aws_s3_bucket.my_s3_bucket
+
+> aws_s3_bucket.my_s3_bucket
+{
+  "acceleration_status" = ""
+  "acl" = tostring(null)
+  "arn" = "arn:aws:s3:::npr-tf-test"
+  "bucket" = "npr-tf-test"
+  "bucket_domain_name" = "npr-tf-test.s3.amazonaws.com"
+  "bucket_prefix" = ""
+  "bucket_regional_domain_name" = "npr-tf-test.s3.amazonaws.com"
+  "cors_rule" = tolist([])
+  "force_destroy" = false
+  "grant" = toset([
+    {
+      "id" = "83d0a610cb5b60536a214f6c8e86a43b2dbc4f5df278ecfd3cbeb75b6f5f76b0"
+      "permissions" = toset([
+        "FULL_CONTROL",
+      ])
+      "type" = "CanonicalUser"
+      "uri" = ""
+    },
+  ])
+  "hosted_zone_id" = "Z3AQBSTGFYJSTF"
+  "id" = "npr-tf-test"
+  "lifecycle_rule" = tolist([])
+  "logging" = tolist([])
+  "object_lock_configuration" = tolist([])
+  "object_lock_enabled" = false
+  "policy" = ""
+  "region" = "us-east-1"
+  "replication_configuration" = tolist([])
+  "request_payer" = "BucketOwner"
+  "server_side_encryption_configuration" = tolist([
+    {
+      "rule" = tolist([
+        {
+          "apply_server_side_encryption_by_default" = tolist([
+            {
+              "kms_master_key_id" = ""
+              "sse_algorithm" = "AES256"
+            },
+          ])
+          "bucket_key_enabled" = false
+        },
+      ])
+    },
+  ])
+  "tags" = tomap({})
+  "tags_all" = tomap({})
+  "timeouts" = null /* object */
+  "versioning" = tolist([
+    {
+      "enabled" = true
+      "mfa_delete" = false
+    },
+  ])
+  "website" = tolist([])
+  "website_domain" = tostring(null)
+  "website_endpoint" = tostring(null)
+}
+>
+
+
+> aws_s3_bucket.my_s3_bucket.versioning[0].enabled
+
+> aws_s3_bucket.my_s3_bucket.versioning[0].enabled
+true
+>
+
+> aws_iam_user.my_iam_user
+
+> aws_iam_user.my_iam_user
+{
+  "arn" = "arn:aws:iam::232565662725:user/system/npr-iam-user"
+  "force_destroy" = false
+  "id" = "npr-iam-user"
+  "name" = "npr-iam-user"
+  "path" = "/system/"
+  "permissions_boundary" = tostring(null)
+  "tags" = tomap(null) /* of string */
+  "tags_all" = tomap({})
+  "unique_id" = "AIDATMJP6MQCXJIZNKENK"
+}
+>
+
+> aws_iam_user.my_iam_user.name
+
+> aws_iam_user.my_iam_user.name
+"npr-iam-user"
+>
+
+
+# scenario-2: print the output values 
+output "my_s3_bucket_versioning" {
+    value = aws_s3_bucket.my_s3_bucket.versioning[0].enabled
+}
+output "my_iam_user" {
+    value = aws_iam_user.my_iam_user.name
+}
+
+
+$ terraform plan
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Changes to Outputs:
+  + my_iam_user             = "npr-iam-user"
+  + my_s3_bucket_versioning = true
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+$ terraform apply
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Changes to Outputs:
+  + my_iam_user             = "npr-iam-user"
+  + my_s3_bucket_versioning = true
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+my_iam_user = "npr-iam-user"
+my_s3_bucket_versioning = true
+
+
+# scenario-3: print the output values (extended)
+output "my_s3_bucket" {
+    value = aws_s3_bucket.my_s3_bucket.bucket
+}
+
+$ terraform plan
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Changes to Outputs:
+  + my_s3_bucket            = "npr-tf-test"
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+$ terraform apply
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Changes to Outputs:
+  + my_s3_bucket            = "npr-tf-test"
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+my_iam_user = "npr-iam-user"
+my_s3_bucket = "npr-tf-test"
+my_s3_bucket_versioning = true
+
+full code
+---------
+
+# scenario-01: create s3 bucket with versioning enabled & iam user 
+# adding the provider aws
+provider "aws" {
+  region     = "us-east-1"
+  access_key = "AKIATMJP6MQCTITR7LKV"
+  secret_key = "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"
+}
+
+# create an s3 bucket resource 
+resource "aws_s3_bucket" "my_s3_bucket" {
+  bucket = "npr-tf-test"
+}
+
+# enable versioning to the created bucket 
+resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+  bucket = aws_s3_bucket.my_s3_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# create an resource iam user
+resource "aws_iam_user" "my_iam_user" {
+  name = "npr-iam-user"
+  path = "/system/"
+}
+
+# scenario-2: print the output values 
+output "my_s3_bucket_versioning" {
+    value = aws_s3_bucket.my_s3_bucket.versioning[0].enabled
+}
+output "my_iam_user" {
+    value = aws_iam_user.my_iam_user.name
+}
+
+# scenario-3: print the output values (extended)
+output "my_s3_bucket" {
+    value = aws_s3_bucket.my_s3_bucket.bucket
+}
+
+
+
+
+#practice-03
+============
+$ cp -rvp .terraform ../03_terraform_example-3/
+$ cp -rvp terraform.tfstate terraform.tfstate.backup ../03_terraform_example-3/
+
+
+# scenario-01: update the bucket name & i am user name that created already 
+# adding the provider aws
+provider "aws" {
+  region     = "us-east-1"
+  access_key = "AKIATMJP6MQCTITR7LKV"
+  secret_key = "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"
+}
+
+# create an s3 bucket resource 
+resource "aws_s3_bucket" "my_s3_bucket" {
+  bucket = "npr-tf-test_new"
+}
+
+# enable versioning to the created bucket 
+resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+  bucket = aws_s3_bucket.my_s3_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# create an resource iam user
+resource "aws_iam_user" "my_iam_user" {
+  name = "npr-iam-user_new"
+  path = "/system/"
+}
+
+output "my_s3_bucket" {
+    value = aws_s3_bucket.my_s3_bucket.bucket
+}
+
+output "my_s3_bucket_versioning" {
+    value = aws_s3_bucket.my_s3_bucket.versioning[0].enabled
+}
+output "my_iam_user" {
+    value = aws_iam_user.my_iam_user.name
+}
+
+
+
+$ terraform.exe plan
+╷
+│ Error: Inconsistent dependency lock file
+│
+│ The following dependency selections recorded in the lock file are
+│ inconsistent with the current configuration:
+│   - provider registry.terraform.io/hashicorp/aws: required by this configuration but no version is selected
+│
+│ To make the initial dependency selections that will initialize the
+│ dependency lock file, run:
+│   terraform init
+
+
+
+$ terraform.exe init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/aws...
+- Installing hashicorp/aws v4.64.0...
+- Installed hashicorp/aws v4.64.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+
+
+$ terraform plan
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # aws_iam_user.my_iam_user will be updated in-place
+  ~ resource "aws_iam_user" "my_iam_user" {
+        id            = "npr-iam-user"
+      ~ name          = "npr-iam-user" -> "npr-iam-user_new"
+        tags          = {}
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_s3_bucket.my_s3_bucket must be replaced
+-/+ resource "aws_s3_bucket" "my_s3_bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      ~ arn                         = "arn:aws:s3:::npr-tf-test" -> (known after apply)
+      ~ bucket                      = "npr-tf-test" -> "npr-tf-test_new" # forces replacement
+      ~ bucket_domain_name          = "npr-tf-test.s3.amazonaws.com" -> (known after apply)
+      + bucket_prefix               = (known after apply)
+      ~ bucket_regional_domain_name = "npr-tf-test.s3.amazonaws.com" -> (known after apply)
+      ~ hosted_zone_id              = "Z3AQBSTGFYJSTF" -> (known after apply)
+      ~ id                          = "npr-tf-test" -> (known after apply)
+      ~ object_lock_enabled         = false -> (known after apply)
+      + policy                      = (known after apply)
+      ~ region                      = "us-east-1" -> (known after apply)
+      ~ request_payer               = "BucketOwner" -> (known after apply)
+      - tags                        = {} -> null
+      ~ tags_all                    = {} -> (known after apply)
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+        # (1 unchanged attribute hidden)
+
+      - grant {
+          - id          = "83d0a610cb5b60536a214f6c8e86a43b2dbc4f5df278ecfd3cbeb75b6f5f76b0" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm = "AES256" -> null
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = true -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket_versioning.versioning_my_s3_bucket must be replaced
+-/+ resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+      ~ bucket = "npr-tf-test" # forces replacement -> (known after apply)
+      ~ id     = "npr-tf-test" -> (known after apply)
+
+      ~ versioning_configuration {
+          + mfa_delete = (known after apply)
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+Plan: 2 to add, 1 to change, 2 to destroy.
+
+Changes to Outputs:
+  ~ my_iam_user             = "npr-iam-user" -> "npr-iam-user_new"
+  ~ my_s3_bucket            = "npr-tf-test" -> "npr-tf-test_new"
+  ~ my_s3_bucket_versioning = true -> (known after apply)
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+$ terraform apply
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # aws_iam_user.my_iam_user will be updated in-place
+  ~ resource "aws_iam_user" "my_iam_user" {
+        id            = "npr-iam-user"
+      ~ name          = "npr-iam-user" -> "npr-iam-user_new"
+        tags          = {}
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_s3_bucket.my_s3_bucket must be replaced
+-/+ resource "aws_s3_bucket" "my_s3_bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      ~ arn                         = "arn:aws:s3:::npr-tf-test" -> (known after apply)
+      ~ bucket                      = "npr-tf-test" -> "npr-tf-test_new" # forces replacement
+      ~ bucket_domain_name          = "npr-tf-test.s3.amazonaws.com" -> (known after apply)
+      + bucket_prefix               = (known after apply)
+      ~ bucket_regional_domain_name = "npr-tf-test.s3.amazonaws.com" -> (known after apply)
+      ~ hosted_zone_id              = "Z3AQBSTGFYJSTF" -> (known after apply)
+      ~ id                          = "npr-tf-test" -> (known after apply)
+      ~ object_lock_enabled         = false -> (known after apply)
+      + policy                      = (known after apply)
+      ~ region                      = "us-east-1" -> (known after apply)
+      ~ request_payer               = "BucketOwner" -> (known after apply)
+      - tags                        = {} -> null
+      ~ tags_all                    = {} -> (known after apply)
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+        # (1 unchanged attribute hidden)
+
+      - grant {
+          - id          = "83d0a610cb5b60536a214f6c8e86a43b2dbc4f5df278ecfd3cbeb75b6f5f76b0" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm = "AES256" -> null
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = true -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket_versioning.versioning_my_s3_bucket must be replaced
+-/+ resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+      ~ bucket = "npr-tf-test" # forces replacement -> (known after apply)
+      ~ id     = "npr-tf-test" -> (known after apply)
+
+      ~ versioning_configuration {
+          + mfa_delete = (known after apply)
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+Plan: 2 to add, 1 to change, 2 to destroy.
+
+Changes to Outputs:
+  ~ my_iam_user             = "npr-iam-user" -> "npr-iam-user_new"
+  ~ my_s3_bucket            = "npr-tf-test" -> "npr-tf-test_new"
+  ~ my_s3_bucket_versioning = true -> (known after apply)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Destroying... [id=npr-tf-test]
+aws_iam_user.my_iam_user: Modifying... [id=npr-iam-user]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Destruction complete after 1s
+aws_s3_bucket.my_s3_bucket: Destroying... [id=npr-tf-test]
+aws_iam_user.my_iam_user: Modifications complete after 1s [id=npr-iam-user_new]
+aws_s3_bucket.my_s3_bucket: Destruction complete after 0s
+aws_s3_bucket.my_s3_bucket: Creating...
+╷
+│ Error: creating Amazon S3 (Simple Storage) Bucket (npr-tf-test_new): InvalidBucketName: The specified bucket is not valid.
+│       status code: 400, request id: JM8BZHBJ7ZS1V1SH, host id: sbqJ1+Y3zpJZQav3oVgXWniOD1o86VbgT3DftSohrfaDrMv067Qk2ADsirZT0vCXjdsonLYxavM=
+│
+│   with aws_s3_bucket.my_s3_bucket,
+│   on main.tf line 11, in resource "aws_s3_bucket" "my_s3_bucket":
+│   11: resource "aws_s3_bucket" "my_s3_bucket" {
+│
+╵
+
+
+
+# modified code 
+# create an s3 bucket resource 
+resource "aws_s3_bucket" "my_s3_bucket" {
+  bucket = "npr-tf-test-new"
+}
+
+# enable versioning to the created bucket 
+resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+  bucket = aws_s3_bucket.my_s3_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+==>
+$ terraform apply
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user_new]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_iam_user.my_iam_user will be updated in-place
+  ~ resource "aws_iam_user" "my_iam_user" {
+        id            = "npr-iam-user_new"
+      ~ name          = "npr-iam-user_new" -> "npr-iam-user-new"
+        tags          = {}
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_s3_bucket.my_s3_bucket will be created
+  + resource "aws_s3_bucket" "my_s3_bucket" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "npr-tf-test-new"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags_all                    = (known after apply)
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+    }
+
+  # aws_s3_bucket_versioning.versioning_my_s3_bucket will be created
+  + resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+Plan: 2 to add, 1 to change, 0 to destroy.
+
+Changes to Outputs:
+  ~ my_iam_user             = "npr-iam-user_new" -> "npr-iam-user-new"
+  ~ my_s3_bucket            = "npr-tf-test_new" -> "npr-tf-test-new"
+  ~ my_s3_bucket_versioning = true -> (known after apply)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_iam_user.my_iam_user: Modifying... [id=npr-iam-user_new]
+aws_s3_bucket.my_s3_bucket: Creating...
+aws_iam_user.my_iam_user: Modifications complete after 1s [id=npr-iam-user-new]
+aws_s3_bucket.my_s3_bucket: Creation complete after 6s [id=npr-tf-test-new]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Creating...
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Creation complete after 3s [id=npr-tf-test-new]
+
+Apply complete! Resources: 2 added, 1 changed, 0 destroyed.
+
+Outputs:
+
+my_iam_user = "npr-iam-user-new"
+my_s3_bucket = "npr-tf-test-new"
+
+
+-->
+
+$ terraform.exe plan
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user-new]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the
+last "terraform apply" which may have affected this plan:
+
+  # aws_s3_bucket.my_s3_bucket has changed
+  ~ resource "aws_s3_bucket" "my_s3_bucket" {
+        id                          = "npr-tf-test-new"
+        # (10 unchanged attributes hidden)
+
+      ~ versioning {
+          ~ enabled    = false -> true
+            # (1 unchanged attribute hidden)
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the
+relevant attributes using ignore_changes, the following plan may include
+actions to undo or respond to these changes.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Changes to Outputs:
+  ~ my_s3_bucket_versioning = false -> true
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+
+$ terraform.exe apply
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user-new]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the
+last "terraform apply" which may have affected this plan:
+
+  # aws_s3_bucket.my_s3_bucket has changed
+  ~ resource "aws_s3_bucket" "my_s3_bucket" {
+        id                          = "npr-tf-test-new"
+        # (10 unchanged attributes hidden)
+
+      ~ versioning {
+          ~ enabled    = false -> true
+            # (1 unchanged attribute hidden)
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the
+relevant attributes using ignore_changes, the following plan may include
+actions to undo or respond to these changes.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Changes to Outputs:
+  ~ my_s3_bucket_versioning = false -> true
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+my_iam_user = "npr-iam-user-new"
+my_s3_bucket = "npr-tf-test-new"
+my_s3_bucket_versioning = true
+
+
+#scenario-2 create an vpc with cidr 10.100.0.0/16 
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "10.100.0.0/16"
+  tags = {
+    name = "npr-vpc"
+  }
+}
+
+output "my_vpc" {
+    value = aws_vpc.my_vpc.tags.name
+}
+output "my_vpc_cidr" {
+    value = aws_vpc.my_vpc.cidr_block
+}
+
+
+
+-->
+
+$ terraform plan
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user-new]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_vpc.my_vpc will be created
+  + resource "aws_vpc" "my_vpc" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.100.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_classiclink                   = (known after apply)
+      + enable_classiclink_dns_support       = (known after apply)
+      + enable_dns_hostnames                 = (known after apply)
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + tags                                 = {
+          + "name" = "npr-vpc"
+        }
+      + tags_all                             = {
+          + "name" = "npr-vpc"
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + my_vpc                  = "npr-vpc"
+  + my_vpc_cidr             = "10.100.0.0/16"
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+
+
+$ terraform apply
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user-new]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_vpc.my_vpc will be created
+  + resource "aws_vpc" "my_vpc" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.100.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_classiclink                   = (known after apply)
+      + enable_classiclink_dns_support       = (known after apply)
+      + enable_dns_hostnames                 = (known after apply)
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + tags                                 = {
+          + "name" = "npr-vpc"
+        }
+      + tags_all                             = {
+          + "name" = "npr-vpc"
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + my_vpc                  = "npr-vpc"
+  + my_vpc_cidr             = "10.100.0.0/16"
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_vpc.my_vpc: Creating...
+aws_vpc.my_vpc: Creation complete after 4s [id=vpc-0911865bd63a9fcaa]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+my_iam_user = "npr-iam-user-new"
+my_s3_bucket = "npr-tf-test-new"
+my_s3_bucket_versioning = true
+my_vpc = "npr-vpc"
+my_vpc_cidr = "10.100.0.0/16"
+
+
+
+
+==>
+
+$ terraform show
+# aws_iam_user.my_iam_user:
+resource "aws_iam_user" "my_iam_user" {
+    arn           = "arn:aws:iam::232565662725:user/system/npr-iam-user-new"
+    force_destroy = false
+    id            = "npr-iam-user-new"
+    name          = "npr-iam-user-new"
+    path          = "/system/"
+    tags          = {}
+    tags_all      = {}
+    unique_id     = "AIDATMJP6MQCXJIZNKENK"
+}
+
+# aws_s3_bucket.my_s3_bucket:
+resource "aws_s3_bucket" "my_s3_bucket" {
+    arn                         = "arn:aws:s3:::npr-tf-test-new"
+    bucket                      = "npr-tf-test-new"
+    bucket_domain_name          = "npr-tf-test-new.s3.amazonaws.com"
+    bucket_regional_domain_name = "npr-tf-test-new.s3.amazonaws.com"
+    force_destroy               = false
+    hosted_zone_id              = "Z3AQBSTGFYJSTF"
+    id                          = "npr-tf-test-new"
+    object_lock_enabled         = false
+    region                      = "us-east-1"
+    request_payer               = "BucketOwner"
+    tags                        = {}
+    tags_all                    = {}
+
+    grant {
+        id          = "83d0a610cb5b60536a214f6c8e86a43b2dbc4f5df278ecfd3cbeb75b6f5f76b0"
+        permissions = [
+            "FULL_CONTROL",
+        ]
+        type        = "CanonicalUser"
+    }
+
+    server_side_encryption_configuration {
+        rule {
+            bucket_key_enabled = false
+
+            apply_server_side_encryption_by_default {
+                sse_algorithm = "AES256"
+            }
+        }
+    }
+
+    versioning {
+        enabled    = true
+        mfa_delete = false
+    }
+}
+
+# aws_s3_bucket_versioning.versioning_my_s3_bucket:
+resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+    bucket = "npr-tf-test-new"
+    id     = "npr-tf-test-new"
+
+    versioning_configuration {
+        status = "Enabled"
+    }
+}
+
+# aws_vpc.my_vpc:
+resource "aws_vpc" "my_vpc" {
+    arn                                  = "arn:aws:ec2:us-east-1:232565662725:vpc/vpc-0911865bd63a9fcaa"
+    assign_generated_ipv6_cidr_block     = false
+    cidr_block                           = "10.100.0.0/16"
+    default_network_acl_id               = "acl-0000296b7ffd672a7"
+    default_route_table_id               = "rtb-040770563830350c9"
+    default_security_group_id            = "sg-057b97a0a8ad77f98"
+    dhcp_options_id                      = "dopt-0a7eba07f76146b15"
+    enable_classiclink                   = false
+    enable_classiclink_dns_support       = false
+    enable_dns_hostnames                 = false
+    enable_dns_support                   = true
+    enable_network_address_usage_metrics = false
+    id                                   = "vpc-0911865bd63a9fcaa"
+    instance_tenancy                     = "default"
+    ipv6_netmask_length                  = 0
+    main_route_table_id                  = "rtb-040770563830350c9"
+    owner_id                             = "232565662725"
+    tags                                 = {
+        "name" = "npr-vpc"
+    }
+    tags_all                             = {
+        "name" = "npr-vpc"
+    }
+}
+
+
+Outputs:
+
+my_iam_user = "npr-iam-user-new"
+my_s3_bucket = "npr-tf-test-new"
+my_s3_bucket_versioning = true
+my_vpc = "npr-vpc"
+my_vpc_cidr = "10.100.0.0/16"
+
+
+-->
+
+# scenario -3 : destroy created i am user 
+# terraform destroy --target aws_iam_user.my_iam_user
+
+$ terraform destroy --target aws_iam_user.my_iam_user
+aws_iam_user.my_iam_user: Refreshing state... [id=npr-iam-user-new]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_iam_user.my_iam_user will be destroyed
+  - resource "aws_iam_user" "my_iam_user" {
+      - arn           = "arn:aws:iam::232565662725:user/system/npr-iam-user-new" -> null
+      - force_destroy = false -> null
+      - id            = "npr-iam-user-new" -> null
+      - name          = "npr-iam-user-new" -> null
+      - path          = "/system/" -> null
+      - tags          = {} -> null
+      - tags_all      = {} -> null
+      - unique_id     = "AIDATMJP6MQCXJIZNKENK" -> null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+╷
+│ Warning: Resource targeting is in effect
+│
+│ You are creating a plan with the -target option, which means that the
+│ result of this plan may not represent all of the changes requested by the
+│ current configuration.
+│
+│ The -target option is not for routine use, and is provided only for
+│ exceptional situations such as recovering from errors or mistakes, or when
+│ Terraform specifically suggests to use it as part of an error message.
+╵
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+aws_iam_user.my_iam_user: Destroying... [id=npr-iam-user-new]
+aws_iam_user.my_iam_user: Destruction complete after 2s
+╷
+│ Warning: Applied changes may be incomplete
+│
+│ The plan was created with the -target option in effect, so some changes
+│ requested in the configuration may have been ignored and the output values
+│ may not be fully updated. Run the following command to verify that no other
+│ changes are pending:
+│     terraform plan
+│
+│ Note that the -target option is not suitable for routine use, and is
+│ provided only for exceptional situations such as recovering from errors or
+│ mistakes, or when Terraform specifically suggests to use it as part of an
+│ error message.
+╵
+
+Destroy complete! Resources: 1 destroyed.
+
+
+-->
+# scenario -4 : destroy all resources created earlier 
+# terraform destroy 
+
+$ terraform destroy
+aws_vpc.my_vpc: Refreshing state... [id=vpc-0911865bd63a9fcaa]
+aws_s3_bucket.my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Refreshing state... [id=npr-tf-test-new]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_s3_bucket.my_s3_bucket will be destroyed
+  - resource "aws_s3_bucket" "my_s3_bucket" {
+      - arn                         = "arn:aws:s3:::npr-tf-test-new" -> null
+      - bucket                      = "npr-tf-test-new" -> null
+      - bucket_domain_name          = "npr-tf-test-new.s3.amazonaws.com" -> null
+      - bucket_regional_domain_name = "npr-tf-test-new.s3.amazonaws.com" -> null
+      - force_destroy               = false -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "npr-tf-test-new" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {} -> null
+      - tags_all                    = {} -> null
+
+      - grant {
+          - id          = "83d0a610cb5b60536a214f6c8e86a43b2dbc4f5df278ecfd3cbeb75b6f5f76b0" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm = "AES256" -> null
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = true -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket_versioning.versioning_my_s3_bucket will be destroyed
+  - resource "aws_s3_bucket_versioning" "versioning_my_s3_bucket" {
+      - bucket = "npr-tf-test-new" -> null
+      - id     = "npr-tf-test-new" -> null
+
+      - versioning_configuration {
+          - status = "Enabled" -> null
+        }
+    }
+
+  # aws_vpc.my_vpc will be destroyed
+  - resource "aws_vpc" "my_vpc" {
+      - arn                                  = "arn:aws:ec2:us-east-1:232565662725:vpc/vpc-0911865bd63a9fcaa" -> null
+      - assign_generated_ipv6_cidr_block     = false -> null
+      - cidr_block                           = "10.100.0.0/16" -> null
+      - default_network_acl_id               = "acl-0000296b7ffd672a7" -> null
+      - default_route_table_id               = "rtb-040770563830350c9" -> null
+      - default_security_group_id            = "sg-057b97a0a8ad77f98" -> null
+      - dhcp_options_id                      = "dopt-0a7eba07f76146b15" -> null
+      - enable_classiclink                   = false -> null
+      - enable_classiclink_dns_support       = false -> null
+      - enable_dns_hostnames                 = false -> null
+      - enable_dns_support                   = true -> null
+      - enable_network_address_usage_metrics = false -> null
+      - id                                   = "vpc-0911865bd63a9fcaa" -> null
+      - instance_tenancy                     = "default" -> null
+      - ipv6_netmask_length                  = 0 -> null
+      - main_route_table_id                  = "rtb-040770563830350c9" -> null
+      - owner_id                             = "232565662725" -> null
+      - tags                                 = {
+          - "name" = "npr-vpc"
+        } -> null
+      - tags_all                             = {
+          - "name" = "npr-vpc"
+        } -> null
+    }
+
+Plan: 0 to add, 0 to change, 3 to destroy.
+
+Changes to Outputs:
+  - my_iam_user             = "npr-iam-user-new" -> null
+  - my_s3_bucket            = "npr-tf-test-new" -> null
+  - my_s3_bucket_versioning = true -> null
+  - my_vpc                  = "npr-vpc" -> null
+  - my_vpc_cidr             = "10.100.0.0/16" -> null
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Destroying... [id=npr-tf-test-new]
+aws_vpc.my_vpc: Destroying... [id=vpc-0911865bd63a9fcaa]
+aws_s3_bucket_versioning.versioning_my_s3_bucket: Destruction complete after 1s
+aws_s3_bucket.my_s3_bucket: Destroying... [id=npr-tf-test-new]
+aws_vpc.my_vpc: Destruction complete after 2s
+aws_s3_bucket.my_s3_bucket: Destruction complete after 0s
+
+Destroy complete! Resources: 3 destroyed.
+
+
+
+
+
+
+
+
